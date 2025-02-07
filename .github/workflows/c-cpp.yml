@@ -1,6 +1,5 @@
 name: Build and Test
 
-# Trigger this workflow on push or pull request to main branch
 on:
   push:
     branches:
@@ -12,24 +11,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up CMake
-      uses: github-actions/setup-cmake@v1
-      with:
-        cmake-version: '3.21'
+      - name: Set up CMake
+        uses: actions/setup-cmake@v2
 
-    - name: Build with CMake
-      run: |
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build .
+      - name: Install dependencies
+        run: sudo apt-get install build-essential
 
-    - name: Run tests
-      run: |
-        cd build
-        ctest
+      - name: Configure CMake
+        run: cmake .
+
+      - name: Build project
+        run: make
+
+      - name: Run tests
+        run: ./tests/your_test_binary

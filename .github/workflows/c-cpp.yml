@@ -15,13 +15,13 @@ jobs:
 
     # Set up CMake
     - name: Set up CMake
-      uses: cmake/setup-cmake@v3
+      uses: actions/setup-cmake@v2
       with:
-        cmake-version: '3.21'
+        cmake-version: '3.21'  # Specify the CMake version you want to use
 
     # Create a build directory
     - name: Create build directory
-      run: mkdir build && cd build
+      run: mkdir -p build && cd build
 
     # Configure with CMake
     - name: Configure with CMake

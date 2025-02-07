@@ -8,16 +8,29 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+
+    # Set up CMake
+    - name: Set up CMake
+      uses: cmake/setup-cmake@v3
+      with:
+        cmake-version: '3.21'
+
+    # Create a build directory
+    - name: Create build directory
+      run: mkdir build && cd build
+
+    # Configure with CMake
+    - name: Configure with CMake
+      run: cmake ..
+
+    # Build with CMake
+    - name: Build with CMake
+      run: cmake --build .
+
+    # Run tests
+    - name: Run tests
+      run: ctest --output-on-failure
